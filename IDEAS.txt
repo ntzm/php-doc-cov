@@ -1,1 +1,6 @@
 - Automatically generated class_alias if the class name is unique
+- Configuration:
+    - bootstrap file
+    - preferred coverage driver
+    - output style
+    - target directory
