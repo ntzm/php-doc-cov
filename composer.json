@@ -1,0 +1,14 @@
+{
+    "name": "ntzm/doccheck",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "league/commonmark": "^0.18.1",
+        "roave/better-reflection": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "DocCov\\": "src/"
+        }
+    }
+}
