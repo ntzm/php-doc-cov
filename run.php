@@ -53,3 +53,7 @@ foreach ($finder->find(['src']) as $method) {
 $percentageCovered = number_format($totalCoveredMethods / $totalMethods * 100, 2);
 
 echo 'Total coverage: ' . $percentageCovered . '%' . "\n";
+
+if ($totalMethods !== $totalCoveredMethods) {
+    exit(1);
+}
