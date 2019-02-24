@@ -27,8 +27,6 @@ $runner = new CodeRunner($coverageDriver);
 foreach ($extractor->extract($md) as $code) {
     $code = $transformer->transform($code);
 
-    var_dump($code);
-
     $runner->run($code);
 }
 
@@ -49,9 +47,9 @@ foreach ($finder->find(['src']) as $method) {
         ++$totalCoveredMethods;
     }
 
-    var_dump($method->getDeclaringClass()->getName() . '::' . $method->getName(), $isCovered);
+    echo ($isCovered ? '✔ ' : '✖ ') . $method->getDeclaringClass()->getName() . '::' . $method->getName() . ($isCovered ? ' is covered' : ' is not covered') . "\n";
 }
 
 $percentageCovered = number_format($totalCoveredMethods / $totalMethods * 100, 2);
 
-var_dump($percentageCovered . '%');
+echo 'Total coverage: ' . $percentageCovered . '%' . "\n";
