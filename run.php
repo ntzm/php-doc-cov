@@ -6,7 +6,7 @@ use DocCov\CodeRunner;
 use DocCov\Coverage\PcovDriver;
 use DocCov\Extractor\MarkdownExtractor;
 use DocCov\CodeTransformer;
-use DocCov\FunctionFinder;
+use DocCov\MethodFinder;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -32,7 +32,7 @@ foreach ($extractor->extract($md) as $code) {
 
 $coverage = $coverageDriver->collect();
 
-$finder = new FunctionFinder();
+$finder = new MethodFinder();
 
 $totalMethods = 0;
 $totalCoveredMethods = 0;

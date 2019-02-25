@@ -15,7 +15,7 @@ use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\MemoizingSourceLocator;
 
-final class FunctionFinder
+final class MethodFinder
 {
     private const METHOD_NAMES_BLACKLIST = [
         '__construct' => true,
@@ -50,7 +50,7 @@ final class FunctionFinder
                 continue;
             }
 
-            if ($this->isInternal($class)) {
+            if ($this->isClassMarkedInternal($class)) {
                 continue;
             }
 
@@ -64,7 +64,7 @@ final class FunctionFinder
         }
     }
 
-    private function isInternal(ReflectionClass $class): bool
+    private function isClassMarkedInternal(ReflectionClass $class): bool
     {
         return stripos($class->getDocComment(), '@internal') !== false;
     }

@@ -11,7 +11,7 @@ use DocCov\Coverage\Driver;
 use DocCov\Coverage\PcovDriver;
 use DocCov\Coverage\XdebugDriver;
 use DocCov\Extractor\MarkdownExtractor;
-use DocCov\FunctionFinder;
+use DocCov\MethodFinder;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -61,7 +61,7 @@ $transformer->transform("foo");
 
         $coverage = $coverageDriver->collect();
 
-        $finder = new FunctionFinder($this->classLoader);
+        $finder = new MethodFinder($this->classLoader);
 
         $totalMethods = 0;
         $totalCoveredMethods = 0;
