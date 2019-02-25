@@ -13,6 +13,7 @@ use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\MemoizingSourceLocator;
 
 final class FunctionFinder
 {
@@ -37,10 +38,10 @@ final class FunctionFinder
     {
         $astLocator = (new BetterReflection())->astLocator();
 
-        $locator = new AggregateSourceLocator([
+        $locator = new MemoizingSourceLocator(new AggregateSourceLocator([
             new DirectoriesSourceLocator($paths, $astLocator),
             new ComposerSourceLocator($this->classLoader, $astLocator),
-        ]);
+        ]));
 
         $reflector = new ClassReflector($locator);
 
