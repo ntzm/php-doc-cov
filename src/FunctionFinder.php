@@ -38,12 +38,12 @@ final class FunctionFinder
     {
         $astLocator = (new BetterReflection())->astLocator();
 
-        $locator = new MemoizingSourceLocator(new AggregateSourceLocator([
-            new DirectoriesSourceLocator($paths, $astLocator),
-            new ComposerSourceLocator($this->classLoader, $astLocator),
-        ]));
-
-        $reflector = new ClassReflector($locator);
+        $reflector = new ClassReflector(
+            new MemoizingSourceLocator(new AggregateSourceLocator([
+                new DirectoriesSourceLocator($paths, $astLocator),
+                new ComposerSourceLocator($this->classLoader, $astLocator),
+            ]))
+        );
 
         foreach ($reflector->getAllClasses() as $class) {
             if ($class->isInterface()) {
