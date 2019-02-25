@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace DocCov;
 
-use Composer\Autoload\ClassLoader;
+use DocCov\Reflection\SourceLocatorFactory;
 use Generator;
 use ReflectionMethod;
-use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\ClassReflector;
-use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\MemoizingSourceLocator;
 
 final class MethodFinder
 {
@@ -22,12 +17,12 @@ final class MethodFinder
         '__destruct' => true,
     ];
 
-    /** @var ClassLoader */
-    private $classLoader;
+    /** @var SourceLocatorFactory */
+    private $sourceLocatorFactory;
 
-    public function __construct(ClassLoader $classLoader)
+    public function __construct(SourceLocatorFactory $sourceLocatorFactory)
     {
-        $this->classLoader = $classLoader;
+        $this->sourceLocatorFactory = $sourceLocatorFactory;
     }
 
     /**
@@ -36,14 +31,7 @@ final class MethodFinder
      */
     public function find(array $paths): Generator
     {
-        $astLocator = (new BetterReflection())->astLocator();
-
-        $reflector = new ClassReflector(
-            new MemoizingSourceLocator(new AggregateSourceLocator([
-                new DirectoriesSourceLocator($paths, $astLocator),
-                new ComposerSourceLocator($this->classLoader, $astLocator),
-            ]))
-        );
+        $reflector = new ClassReflector($this->sourceLocatorFactory->forPaths($paths));
 
         foreach ($reflector->getAllClasses() as $class) {
             if ($class->isInterface()) {
